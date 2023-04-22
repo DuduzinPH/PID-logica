@@ -1,5 +1,5 @@
 #include <Arduino.h>
-//#include <bibliotecamotor.h>
+#include <bibliotecamotor.h>
 #define sdd 2
 #define sd 3
 #define sc 4
@@ -17,7 +17,7 @@ int kp = 35; //constante proporcional que é usada para definir a velocidade do 
 int kd = 35; //constante derivada responsàvel por diminuir a velocidade ajustando para o robô realizar curvas mais devagar de acordo com erro
 
 int I = 0, P = 0, D = 0, PID = 0;
-int velesq = 0, veldir = 0;
+int vbase = 60;
 int erro = 0, erroanterior = 0;
 void setup() {
   for (int i = 0;i <= 5;i++){
@@ -45,16 +45,41 @@ void calculapid(){
   }
   P = erro;
   I = I + erro;
-  if(erro > 255){
-    I = 255;
+  if(I > 255){
+    I = 0;
   }
-  else if(erro < -255){
-    I = -255;
+  else if(I < -255){
+    I = 0;
   }
   D = erro - erroanterior;
   PID = (kp*P) + (ki*I) + (kd*D); 
   erroanterior = erro;
 }
+void run(int v){
+if(v > 0){ 
+    analogWrite(pino1, v); analogWrite(pino2,0);
+    }
+    else {analogWrite(pino1, 0); analogWrite(pino2,v);
+    }
+}
+void segue{
+va = vbase - PID;
+vb = vbase + PID;
+
+if(vb < 0){
+    md.re(vb);
+    me.frente(va);
+}
+if(va < 0){
+    me.frente(vb);
+    md.re(va);
+}
+else{
+    md.frente(vb);
+    me.frente(va);
+}
+}
+
 
 void frente(int v){
   md.frente(v);
