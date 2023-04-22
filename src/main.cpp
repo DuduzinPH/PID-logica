@@ -8,6 +8,13 @@
 
 motor md(5,6);
 motor me(10,11);
+
+int pino1 = 5;
+int pino2 = 10;
+
+int va ;
+int vb ;
+
 int sensores[5] = {sdd,sd,sc,se,see};
 
 int sensor[5] = {digitalRead(sdd),digitalRead(sd),digitalRead(sc),digitalRead(se),digitalRead(see)};
@@ -62,7 +69,7 @@ if(v > 0){
     else {analogWrite(pino1, 0); analogWrite(pino2,v);
     }
 }
-void segue{
+void segue(){
 va = vbase - PID;
 vb = vbase + PID;
 

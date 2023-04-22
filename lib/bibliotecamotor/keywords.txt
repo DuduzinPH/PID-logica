@@ -1,0 +1,5 @@
+bibliotecamotor 	KEYWORD1
+motor 			KEYWORD1 
+frente 			KEYWORD2 
+re 			KEYWORD2
+para			KEYWORD2
